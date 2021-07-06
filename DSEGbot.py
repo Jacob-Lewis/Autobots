@@ -1,8 +1,8 @@
 import discord 
 import os
-import random
 from datetime import datetime
 from discord.ext import tasks, commands
+from server import keep_alive
 
 client = commands.Bot('.')
 users = []
@@ -79,11 +79,52 @@ async def on_message(message):
 
 
 #if today is a reminder day, sends reminder message to opted-in users at desired interval
-@tasks.loop(seconds=10, count=6)
+@tasks.loop(hours=24)
 async def loop_send():
+
+    #everyday undergo same process in on_ready
+    f = open('testinfo.txt','r')
+
+    #LINE ONE: read users from file into list
+    ids = f.readline().split()[1:]
+    for id in ids:
+        user = await client.fetch_user(id)
+        if user is not None:
+            users.append(user)
+    
+    #LINE TWO: read start date, then calculate how many days since project start
+    global line_two
+    line_two = f.readline()
+
+    start_date_str = line_two.split()[1]
+    start_date = datetime.strptime(start_date_str, "%m/%d/%Y")
+
+    now = datetime.now()
+    days_since_start = (now - start_date).days
+
+    #LINE THREE: read milestone days, then see if today is a reminder day - reminders are 7, 3, and 1 days before milestone 
+    #TO DO: get milestone names and pair them with days (there can be notifications for different milestones on the same day)
+    global line_three
+    line_three = f.readline() 
+
+    milestones = line_three.split()[1:]
+    global to_send
+    for m in milestones:
+        days_until_m = int(m) - days_since_start
+        if days_until_m == 1:
+            to_send = to_send + 'Milestone approaching in 1 day.'
+        if days_until_m == 3:
+            to_send = to_send + 'Milestone approaching in 3 days. '
+        if days_until_m == 7:
+            to_send = to_send + 'Milestone approaching in 7 days. '
+
+    f.close()
+
     if to_send != '':
         for u in users:
             await u.send(to_send)
+
+    to_send = ''
 
 #can't edit files, so this behavior is emulated by making a temp file and keeping every line the same except
 #for the new user id list, then setting the old file to the new one
@@ -104,6 +145,7 @@ def update_file():
     f.close()
     os.rename('temp.txt', 'testinfo.txt')
         
-#run bot and activate loop
+#run server, activate loop, run bot
+keep_alive()
 loop_send.start()
-client.run('ODU2OTA4MTMzMjc1NjY0Mzk0.YNH34w.LPWxFXdTDtzfk5m41qXEh9NuyBA')
+client.run('ODU2OTA4MTMzMjc1NjY0Mzk0.YNH34w.rGxJRL8EvYcz8kIJg2KxGO0MdX0')
