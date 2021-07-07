@@ -8,6 +8,6 @@ project start date is approaching a milestone day (7, 3, and 1 day(s) before), t
 the project members on Discord with a reminder. Project members can opt in and out of reminders by sending
 '$opt in' and '$opt out' into the Discord channel or the bot's direct messages.
 
-In its current state the bot sends reminders every 10 seconds for 1 minute. This can easily be customized by 
+In its current state the bot sends reminders when it starts up and every 24 hours after that. This can easily be customized by 
 changing the parameters of the loop on line 82.
 
