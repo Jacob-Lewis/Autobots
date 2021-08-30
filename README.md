@@ -1,10 +1,9 @@
 # Autobots
 
-This project is a working prototype for an accountability coach/project coordinator bot. Its primary function is to message project members with reminders on upcoming milestones. It does this by reading in an input file containing the Discord user ids of project members, the project start date, and the project milestone days. The format for the input file is straightforward and can be seen in testinfo.txt. If the number of days since the project start date is approaching a milestone day (7, 3, and 1 day(s) before), the bot will directly message the project members on Discord with a reminder. Project members can opt in and out of reminders by sending '$opt in' and '$opt out' into the Discord channel or the bot's direct messages.
+This program acts as an accountability coach/project coordinator for people working together on projects. It was designed for projects within the DSEG Discord community, but can be used in any Discord community.
 
-In its current state the bot sends reminders when it starts up and every 24 hours after that. This can easily be customized by changing the parameters of the loop on line 82.
+The Discord bot that is operated by the program is able to run continuously through a Flask server on Replit that is pinged every five minutes by a free service called UptimeRobot. 
 
-In order to run continuously, the bot runs a Flask server through Repl.it which is pinged every 5 minutes by a free service called UptimeRobot. This way, the server never shuts down due to inactivity and the bot can run indefinitely.
+For more information about the bot, as well as guided instructions on how to set up/use it, view this document:
 
-To use this code, the token argument in the last line must be replaced with the actual token of the Discord bot you want to use.
-
+[DSEGbot_extended_readme.docx](https://github.com/Jacob-Lewis/Autobots/files/7078193/DSEGbot_extended_readme.docx)
