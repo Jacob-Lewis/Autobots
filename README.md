@@ -1,4 +1,4 @@
-# Autobots
+# DSEGbot
 
 This program acts as an accountability coach/project coordinator for people working together on projects. It was designed for projects within the DSEG Discord community, but can be used in any Discord community.
 
